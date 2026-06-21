@@ -28,10 +28,7 @@ export default function App() {
       <div className="glow-orb glow-orb-purple" style={{ top: '20%', right: '-10%', width: '45vw', height: '45vw', filter: 'blur(140px)' }} />
       <div className="glow-orb glow-orb-pink" style={{ bottom: '-10%', left: '20%', width: '40vw', height: '40vw' }} />
 
-      {/* LIQUID GLASS AD BANNER TOP */}
-      <div className="relative z-10 bg-white/[0.02] backdrop-blur-md border-b border-white/[0.05] text-slate-400 text-center py-3 text-xs tracking-widest uppercase shadow-sm">
-        <span className="opacity-60">[ Advertisement Space — Google AdSense Top Leaderboard ]</span>
-      </div>
+
 
       <header className="relative z-10 max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center justify-between w-full md:w-auto">
@@ -100,14 +97,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* LIQUID GLASS AD SIDEBAR */}
+          {/* SIDEBAR WIDGETS */}
           <div className="space-y-6">
-            <div className="glass-card p-4 h-[340px] flex flex-col justify-center items-center text-center">
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-3">Sponsored Analytics</span>
-              <div className="ad-block w-full h-full p-4">
-                [ AdSense Skyscraper Block ]
-              </div>
-            </div>
             
 
             <div className="glass-card p-5" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.03), transparent)' }}>
@@ -138,12 +129,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* BOTTOM AD BANNER */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-4">
-        <div className="ad-block py-6 rounded-2xl">
-          [ AdSense Bottom Leaderboard Block ]
-        </div>
-      </div>
+
 
       <footer className="relative z-10 border-t border-white/[0.05] bg-black/40 backdrop-blur-md mt-12 py-8 text-center text-xs text-slate-500">
         <p>&copy; 2026 Velo Finance. Built with client-side mathematical variables. No financial advisory implied.</p>
