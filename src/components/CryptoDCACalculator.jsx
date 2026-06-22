@@ -233,10 +233,7 @@ export default function CryptoDCACalculator() {
         </form>
       </div>
 
-      {/* AD BLOCK */}
-      <div className="ad-block py-4 rounded-xl">
-        [ AdSense Contextual In-Article Element Space ]
-      </div>
+
 
       {/* SEO CONTENT */}
       <article className="border-t border-white/[0.05] pt-6 max-w-none text-slate-400 text-xs sm:text-sm leading-relaxed space-y-3 font-medium">

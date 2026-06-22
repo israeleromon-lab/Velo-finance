@@ -21,7 +21,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#080b11] text-slate-100 font-sans relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#080b11] text-slate-100 font-sans relative">
       
       {/* BACKGROUND LIQUID GLOW AMBIENCE */}
       <div className="glow-orb glow-orb-indigo" style={{ top: '-10%', left: '-10%', width: '50vw', height: '50vw' }} />
