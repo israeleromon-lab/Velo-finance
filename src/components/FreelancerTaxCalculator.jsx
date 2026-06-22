@@ -3,6 +3,7 @@ import { Calculator, DollarSign, TrendingDown, Wallet, Clock, Save, CheckCircle,
 import { supabase } from '../lib/supabaseClient';
 import { useCurrency } from '../contexts/CurrencyContext';
 import FeedbackCard from './FeedbackCard';
+import AdBanner from './AdBanner';
 
 const CALCULATOR_ID = 'a1b2c3d4-5e6f-7890-abcd-ef1234567890';
 
@@ -211,6 +212,9 @@ export default function FreelancerTaxCalculator() {
           Liquid reserve runtimes quantify the baseline structural elasticity of a service business model. Establishing real-time tax accounting buffers directly mitigates cash flow vulnerabilities against localized enterprise client volatility.
         </p>
       </article>
+
+      {/* ADSTERRA NATIVE BANNER BLOCK */}
+      <AdBanner />
 
       {/* FEEDBACK CARD */}
       <FeedbackCard calculatorId={CALCULATOR_ID} accentColor="purple" />

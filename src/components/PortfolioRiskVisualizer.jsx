@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { PieChart as PieChartIcon, Shield, Zap, TrendingUp, Save, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import FeedbackCard from './FeedbackCard';
+import AdBanner from './AdBanner';
 
 const CALCULATOR_ID = 'b2c3d4e5-6f78-90ab-cdef-123456789012';
 
@@ -245,6 +246,9 @@ export default function PortfolioRiskVisualizer() {
           Managing risk variance vectors calls for continuous oversight of asset dependencies. Allocating capital weightings to high-velocity digital crypto networks accelerates capital growth coefficients but risks higher baseline drops, requiring balance from fixed-income components.
         </p>
       </article>
+
+      {/* ADSTERRA NATIVE BANNER BLOCK */}
+      <AdBanner />
 
       {/* FEEDBACK CARD */}
       <FeedbackCard calculatorId={CALCULATOR_ID} accentColor="pink" />
