@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { supabase } from '../lib/supabaseClient';
 import { TrendingUp, Save, CheckCircle, AlertCircle } from 'lucide-react';
+import { useCurrency } from '../contexts/CurrencyContext';
 import FeedbackCard from './FeedbackCard';
 
 const CALCULATOR_ID = '7bdf7580-2aee-4cbe-b435-021c33c36c61';
@@ -13,6 +14,7 @@ export default function CryptoDCACalculator() {
   const [chartData, setChartData] = useState([]);
   const [saveStatus, setSaveStatus] = useState(null); // null | 'saving' | 'saved' | 'error'
   const [email, setEmail] = useState('');
+  const { activeCurrency, convertAndFormat, convertRaw } = useCurrency();
 
   const calculateData = useCallback(() => {
     const data = [];
@@ -85,8 +87,8 @@ export default function CryptoDCACalculator() {
       return (
         <div className="glass-card p-3 text-xs space-y-1" style={{ backdropFilter: 'blur(16px)' }}>
           <p className="text-slate-300 font-bold">{label}</p>
-          <p className="text-indigo-400">Value: <span className="text-white font-mono">${payload[0]?.value?.toLocaleString()}</span></p>
-          <p className="text-slate-500">Invested: <span className="text-slate-300 font-mono">${payload[1]?.value?.toLocaleString()}</span></p>
+          <p className="text-indigo-400">Value: <span className="text-white font-mono">{convertAndFormat(payload[0]?.value)}</span></p>
+          <p className="text-slate-500">Invested: <span className="text-slate-300 font-mono">{convertAndFormat(payload[1]?.value)}</span></p>
         </div>
       );
     }
@@ -112,7 +114,7 @@ export default function CryptoDCACalculator() {
           <label className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold block mb-3">
             Monthly Allocation
           </label>
-          <div className="text-lg font-black text-white font-mono mb-2">${monthlyContribution.toLocaleString()}</div>
+          <div className="text-lg font-black text-white font-mono mb-2">{convertAndFormat(monthlyContribution)}</div>
           <input
             type="range" min="10" max="2500" step="10"
             value={monthlyContribution}
@@ -120,7 +122,7 @@ export default function CryptoDCACalculator() {
             id="slider-monthly-contribution"
           />
           <div className="flex justify-between text-[9px] text-slate-600 mt-1 font-mono">
-            <span>$10</span><span>$2,500</span>
+            <span>{convertAndFormat(10, false)}</span><span>{convertAndFormat(2500, false)}</span>
           </div>
         </div>
         <div>
@@ -158,8 +160,8 @@ export default function CryptoDCACalculator() {
       </div>
 
       {/* VISUAL CHART INTERFACE */}
-      <div className="chart-container h-72 p-4">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="chart-container h-72 p-4" style={{ minHeight: '280px' }}>
+        <ResponsiveContainer width="99%" height="100%">
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -169,7 +171,7 @@ export default function CryptoDCACalculator() {
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#161b26" />
             <XAxis dataKey="name" stroke="#475569" fontSize={9} tickLine={false} />
-            <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v/1000).toFixed(0)}k`} />
+            <YAxis stroke="#475569" fontSize={9} tickLine={false} axisLine={false} tickFormatter={(v) => `${activeCurrency.symbol}${(convertRaw(v)/1000).toFixed(0)}k`} />
             <Tooltip content={<CustomTooltip />} />
             <Area type="monotone" dataKey="Value" stroke="#818cf8" strokeWidth={2.5} fill="url(#colorValue)" dot={false} name="Portfolio Value" />
             <Line type="monotone" dataKey="Invested" stroke="#334155" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="Principal Baseline" />
@@ -181,16 +183,16 @@ export default function CryptoDCACalculator() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="glass-card-inner p-4 text-center">
           <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Total Invested</p>
-          <h4 className="text-base font-black text-slate-200 mt-1 font-mono">${totalInvested.toLocaleString()}</h4>
+          <h4 className="text-base font-black text-slate-200 mt-1 font-mono">{convertAndFormat(totalInvested)}</h4>
         </div>
         <div className="glass-card-inner p-4 text-center">
           <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Terminal Value</p>
-          <h4 className="text-base font-black text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text mt-1 font-mono">${finalValue.toLocaleString()}</h4>
+          <h4 className="text-base font-black text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text mt-1 font-mono">{convertAndFormat(finalValue)}</h4>
         </div>
         <div className="glass-card-inner p-4 text-center">
           <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Total Gain</p>
           <h4 className={`text-base font-black mt-1 font-mono ${totalGain >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-            {totalGain >= 0 ? '+' : ''}${totalGain.toLocaleString()}
+            {totalGain >= 0 ? '+' : ''}{convertAndFormat(Math.abs(totalGain))}
           </h4>
         </div>
         <div className="glass-card-inner p-4 text-center">
@@ -206,7 +208,7 @@ export default function CryptoDCACalculator() {
         <div className="w-full md:w-auto">
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Terminal Model Valuation</p>
           <h3 className="text-2xl font-black text-transparent bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text mt-0.5">
-            ${finalValue.toLocaleString()}
+            {convertAndFormat(finalValue)}
           </h3>
         </div>
         <form onSubmit={handleLogTelemetry} className="w-full md:w-auto flex flex-col sm:flex-row gap-2">

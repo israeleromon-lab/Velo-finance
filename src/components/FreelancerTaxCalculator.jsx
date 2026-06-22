@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calculator, DollarSign, TrendingDown, Wallet, Clock, Save, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { useCurrency } from '../contexts/CurrencyContext';
 import FeedbackCard from './FeedbackCard';
 
 const CALCULATOR_ID = 'a1b2c3d4-5e6f-7890-abcd-ef1234567890';
@@ -12,6 +13,7 @@ export default function FreelancerTaxCalculator() {
   const [monthlyBurn, setMonthlyBurn] = useState(3000);
   const [saveStatus, setSaveStatus] = useState(null);
   const [email, setEmail] = useState('');
+  const { activeCurrency, convertAndFormat } = useCurrency();
 
   const handleLogTelemetry = async (e) => {
     if (e) e.preventDefault();
@@ -68,9 +70,9 @@ export default function FreelancerTaxCalculator() {
   };
 
   const metrics = [
-    { label: 'Net Operational', value: `$${netIncome.toLocaleString()}`, icon: DollarSign, color: 'text-slate-200' },
-    { label: 'Tax Allocation', value: `$${totalTax.toLocaleString()}`, icon: TrendingDown, color: 'text-rose-400', sub: `${effectiveRate}% effective` },
-    { label: 'Liquid Reserves', value: `$${takeHomePay.toLocaleString()}`, icon: Wallet, color: 'text-emerald-400', sub: `$${Number(monthlyTakeHome).toLocaleString()}/mo` },
+    { label: 'Net Operational', value: convertAndFormat(netIncome), icon: DollarSign, color: 'text-slate-200' },
+    { label: 'Tax Allocation', value: convertAndFormat(totalTax), icon: TrendingDown, color: 'text-rose-400', sub: `${effectiveRate}% effective` },
+    { label: 'Liquid Reserves', value: convertAndFormat(takeHomePay), icon: Wallet, color: 'text-emerald-400', sub: `${convertAndFormat(Number(monthlyTakeHome))}/mo` },
     { label: 'Active Runway', value: `${runwayMonths} Mo`, icon: Clock, color: runwayColor() },
   ];
 
@@ -88,7 +90,7 @@ export default function FreelancerTaxCalculator() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 glass-card-inner p-5">
         <div>
           <label className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">
-            Annual Gross Contract Value ($)
+            Annual Gross Contract Value ({activeCurrency.symbol})
           </label>
           <input
             type="number" value={grossRevenue}
@@ -98,7 +100,7 @@ export default function FreelancerTaxCalculator() {
         </div>
         <div>
           <label className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">
-            Operating System Expenses ($)
+            Operating System Expenses ({activeCurrency.symbol})
           </label>
           <input
             type="number" value={expenses}
@@ -118,7 +120,7 @@ export default function FreelancerTaxCalculator() {
         </div>
         <div>
           <label className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold block mb-1.5">
-            Personal Monthly Capital Burn ($)
+            Personal Monthly Capital Burn ({activeCurrency.symbol})
           </label>
           <input
             type="number" value={monthlyBurn}
