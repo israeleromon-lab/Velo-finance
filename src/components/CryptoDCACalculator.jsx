@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabaseClient';
 import { TrendingUp, Save, CheckCircle, AlertCircle } from 'lucide-react';
 import { useCurrency } from '../contexts/CurrencyContext';
 import FeedbackCard from './FeedbackCard';
-import AdBanner from './AdBanner';
 
 const CALCULATOR_ID = '7bdf7580-2aee-4cbe-b435-021c33c36c61';
 
@@ -248,9 +247,6 @@ export default function CryptoDCACalculator() {
           Through asymmetric allocation layers, users can project historical trends over compound interest matrices. Utilizing client-side calculations inside Velo Finance maintains zero-latency forecasting structures for digital assets.
         </p>
       </article>
-
-      {/* ADSTERRA NATIVE BANNER BLOCK */}
-      <AdBanner />
 
       {/* FEEDBACK CARD */}
       <FeedbackCard calculatorId={CALCULATOR_ID} accentColor="indigo" />
